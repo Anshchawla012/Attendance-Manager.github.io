@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Manage Attendance</h1>
+    </header>
+
+    <form id="attendanceForm">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br><br>
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" placeholder="YYYY-MM-DD" required><br><br>
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select><br><br>
+        <button type="submit">Add Attendance</button>
+    </form>
+
+    
+    
+<script>
+    document.getElementById("attendanceForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Retrieve form values
+        var subject = document.getElementById("subject").value;
+        var date = document.getElementById("date").value;
+        var status = document.getElementById("status").value;
+
+        // Create an attendance object
+        var attendance = {
+            subject: subject,
+            date: date,
+            status: status
+        };
+
+        // Retrieve existing attendance data from local storage or initialize an empty array
+        var existingAttendance = JSON.parse(localStorage.getItem("attendance")) || [];
+
+        // Add the new attendance entry to the existing data
+        existingAttendance.push(attendance);
+
+        // Save the updated attendance data back to local storage
+        localStorage.setItem("attendance", JSON.stringify(existingAttendance));
+
+        // Reset form fields
+        document.getElementById("subject").value = "";
+        document.getElementById("date").value = "";
+        document.getElementById("status").value = "Present";
+
+        // Display alert
+        alert("Attendance added:\nSubject: " + subject + "\nDate: " + date + "\nStatus: " + status);
+    });
+</script>
+</body>
+</html>

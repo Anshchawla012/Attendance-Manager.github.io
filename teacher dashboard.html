@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0066cc;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="date"] {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #0066cc;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Dashboard</h1>
+        <div class="form-group">
+            <label for="class-select">Select Class:</label>
+            <select id="class-select">
+                <option value="Math">Math</option>
+                <option value="Science">Science</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date-select">Select Date:</label>
+            <input type="date" id="date-select">
+        </div>
+        <div id="attendance-list"></div>
+        <button id="update-attendance">Update Attendance</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const classSelect = document.getElementById("class-select");
+            const dateSelect = document.getElementById("date-select");
+            const attendanceList = document.getElementById("attendance-list");
+            const updateButton = document.getElementById("update-attendance");
+
+            updateAttendanceList();
+
+            updateButton.addEventListener("click", function() {
+                const className = classSelect.value;
+                const date = dateSelect.value;
+                const attendanceData = {};
+
+                const checkboxes = document.querySelectorAll("input[type='checkbox']");
+                checkboxes.forEach(function(checkbox) {
+                    attendanceData[checkbox.dataset.student] = checkbox.checked ? "Present" : "Absent";
+                });
+
+                console.log(className, date, attendanceData);
+                // Send attendance data to the server for updating (AJAX request)
+                // Example: sendAttendanceData(className, date, attendanceData);
+
+                // Show alert for successful update
+                alert("Update successful");
+            });
+
+            function updateAttendanceList() {
+                const className = classSelect.value;
+                const date = dateSelect.value;
+
+                // Fetch attendance data for the selected class and date from the server (AJAX request)
+                const attendanceData = {
+                    'Ansh': 'Present',
+                    'Aryan': 'Absent',
+                    'Garima': 'Present'
+                };
+
+                const table = document.createElement("table");
+                table.innerHTML = `
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                `;
+
+                for (const student in attendanceData) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${student}</td>
+                        <td><input type="checkbox" data-student="${student}" ${attendanceData[student] === 'Present' ? 'checked' : ''}></td>
+                    `;
+                    table.appendChild(row);
+                }
+
+                attendanceList.innerHTML = "";
+                attendanceList.appendChild(table);
+            }
+        });
+    </script>
+</body>
+</html>

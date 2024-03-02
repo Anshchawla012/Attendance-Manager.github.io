@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        section {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 0 0 calc(30% - 40px);
+            max-width: calc(30% - 40px);
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .attendance-table th,
+        .attendance-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .attendance-table th {
+            background-color: #3498db;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Student Dashboard</h1>
+    </header>
+
+    <nav>
+        <a href="student dashboard.html">Student Dashboard</a>
+        <a href="manage attendance.html">Manage Attendance</a>
+        <a href="attendance.html">Logout</a>
+    </nav>
+
+    <section>
+        <div class="card" id="profileCard">
+            <h2>Profile</h2>
+            <p>Name: <span id="studentName"></span></p>
+        </div>
+
+        <div class="card">
+            <h2>Attendance</h2>
+            <table class="attendance-table" id="attendanceTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Attendance data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        // Simulated attendance data (date and status)
+        var attendanceData = [
+            { date: "2024-03-01", status: "Present" },
+            { date: "2024-03-02", status: "Absent" },
+            { date: "2024-03-03", status: "Present" },
+            // Add more attendance data as needed
+        ];
+
+        // Function to update profile information
+        function updateProfile() {
+            var name = prompt("Please enter your name:"); // Ask for the name dynamically
+
+            // Update profile card with input value
+            document.getElementById("studentName").textContent = name;
+
+            // Generate attendance table rows
+            var tbody = document.querySelector("#attendanceTable tbody");
+            attendanceData.forEach(function(data) {
+                var row = document.createElement("tr");
+                var dateCell = document.createElement("td");
+                dateCell.textContent = data.date;
+                var statusCell = document.createElement("td");
+                statusCell.textContent = data.status;
+                row.appendChild(dateCell);
+                row.appendChild(statusCell);
+                tbody.appendChild(row);
+            });
+        }
+      // Call the updateProfile function when the page loads
+      window.onload = updateProfile;
+    </script>
+</body>
+</html>
